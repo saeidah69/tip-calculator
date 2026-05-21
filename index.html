@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tip Calculator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 2rem;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      color: #1a202c;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #4a5568;
+      margin-bottom: 0.3rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus { border-color: #4299e1; }
+
+    .results {
+      background: #ebf8ff;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .results p {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: #2d3748;
+      margin-bottom: 0.4rem;
+    }
+
+    .results p:last-child { margin-bottom: 0; font-weight: 600; }
+
+    button {
+      width: 100%;
+      padding: 0.65rem;
+      background: #4299e1;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button:hover { background: #3182ce; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Tip Calculator</h1>
+
+    <label for="bill">Bill amount ($)</label>
+    <input type="number" id="bill" min="0" step="0.01" placeholder="0.00" />
+
+    <label for="tip">Tip (%)</label>
+    <input type="number" id="tip" min="0" max="100" placeholder="15" />
+
+    <label for="people">Number of people</label>
+    <input type="number" id="people" min="1" value="1" />
+
+    <div class="results">
+      <p><span>Tip per person</span> <span id="tipPer">$0.00</span></p>
+      <p><span>Total per person</span> <span id="totalPer">$0.00</span></p>
+    </div>
+
+    <button onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    const ids = ['bill', 'tip', 'people'];
+    ids.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+
+    function calculate() {
+      const bill   = parseFloat(document.getElementById('bill').value)   || 0;
+      const tip    = parseFloat(document.getElementById('tip').value)    || 0;
+      const people = parseInt(document.getElementById('people').value,10) || 1;
+
+      const tipTotal = bill * (tip / 100);
+      const tipPer   = tipTotal / people;
+      const totalPer = (bill + tipTotal) / people;
+
+      document.getElementById('tipPer').textContent   = '$' + tipPer.toFixed(2);
+      document.getElementById('totalPer').textContent = '$' + totalPer.toFixed(2);
+    }
+
+    function reset() {
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        el.value = id === 'people' ? '1' : '';
+      });
+      document.getElementById('tipPer').textContent   = '$0.00';
+      document.getElementById('totalPer').textContent = '$0.00';
+    }
+  </script>
+</body>
+</html>
