@@ -12,6 +12,6 @@ Open `index.html` in any browser — no install or build step required.
 - Splits the total across any number of people
 - Resets with one click
 
-## Licence
+## License
 
 MIT
